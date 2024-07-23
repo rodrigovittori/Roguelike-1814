@@ -1,7 +1,7 @@
 #pgzero
 
 """
-Version actual: [M7.L1: Actividad 5/9]
+Version actual: [M7.L1: Actividad 6/9]
 packs de assets: https://kenney.nl/assets/series:Tiny?sort=update
 """
 
@@ -85,3 +85,20 @@ def draw():
 
   screen.draw.text(("PS:" + str(personaje.salud)), midright=((WIDTH - 15), 14), color = 'white', fontsize = 16)
   screen.draw.text(("ATK:" + str(personaje.ataque)), midright=((WIDTH - 15), 36), color = 'white', fontsize = 16)
+
+def on_key_down(key):
+  
+  if ((keyboard.right or keyboard.d) and (personaje.x < WIDTH - celda.width * 2)):
+    # ¿Xq 2?: Una (la que me voy a desplazar) y otra (por la pared, que NO puedo atravesar)
+    personaje.x += celda.width
+    personaje.image = "stand" # xq stand mira a la dcha
+        
+  elif ((keyboard.left or keyboard.a) and (personaje.x > celda.width * 2)):
+    personaje.x -= celda.width
+    personaje.image = "left"
+        
+  elif ((keyboard.down or keyboard.s) and (personaje.y < HEIGHT - celda.height * 2)):
+    personaje.y += celda.height
+    
+  elif ((keyboard.up or keyboard.w) and (personaje.y > celda.height * 2)):
+        personaje.y -= celda.height
