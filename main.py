@@ -1,7 +1,7 @@
 #pgzero
 
 """
-Version actual: [M7.L1: Actividad 6/9]
+Version actual: [M7.L1: Actividades Extra]
 packs de assets: https://kenney.nl/assets/series:Tiny?sort=update
 """
 
@@ -14,8 +14,8 @@ piso =   Actor("floor")  # 1: Suelo liso
 crack =  Actor("crack")  # 2: Suelo resquebrajado/quebradizo
 huesos = Actor("bones")  # 3: Suelo con pilita de huesos
 
-size_w = 7 # Ancho del mapa en celdas
-size_h = 7 # Altura del mapa en celdas
+size_w = 9 # Ancho del mapa en celdas
+size_h = 10 # Altura del mapa en celdas
 
 WIDTH =  celda.width  * size_w
 HEIGHT = celda.height * size_h
@@ -29,21 +29,31 @@ personaje = Actor("stand")
 personaje.salud = 100
 personaje.ataque = 5
 
-mapa = [[0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 2, 1, 3, 1, 0],
-        [0, 1, 1, 2, 1, 1, 0],
-        [0, 3, 2, 1, 1, 3, 0],
-        [0, 1, 1, 1, 3, 1, 0],
-        [0, 1, 3, 1, 1, 2, 0],
-        [0, 0, 0, 0, 0, 0, 0]]
-        
-mapa2 = [[0, 0, 0, 0, 0, 0, 0],
-         [0, 1, 1, 3, 1, 1, 0],
-         [0, 1, 3, 1, 3, 1, 0],
-         [0, 3, 1, 1, 1, 3, 0],
-         [0, 3, 1, 1, 1, 3, 0],
-         [0, 1, 3, 3, 3, 1, 0],
-         [0, 0, 0, 0, 0, 0, 0]]
+# To-do: Lista de mapas?
+# Ampliamos a 9x9 + una fila para mostrar el texto (9x10)
+
+mapa =   [[0, 0, 0, 0, 0, 0, 0, 0, 0], 
+          [0, 1, 1, 1, 1, 1, 1, 1, 0], 
+          [0, 1, 1, 2, 1, 3, 1, 1, 0], 
+          [0, 1, 1, 1, 2, 1, 1, 1, 0], 
+          [0, 1, 3, 2, 1, 1, 3, 1, 0], 
+          [0, 1, 1, 1, 1, 3, 1, 1, 0], 
+          [0, 1, 1, 3, 1, 1, 2, 1, 0], 
+          [0, 1, 1, 1, 1, 1, 1, 1, 0], 
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [-1, -1, -1, -1, -1, -1, -1, -1, -1]] # Fila extra para mostrar el texto
+      
+mapa2 = [[0, 0, 0, 0, 0, 0, 0, 0, 0], 
+          [0, 1, 1, 1, 1, 1, 1, 1, 0], 
+          [0, 1, 1, 3, 1, 3, 1, 1, 0], 
+          [0, 1, 1, 3, 1, 3, 1, 1, 0], 
+          [0, 1, 1, 1, 1, 1, 1, 1, 0], 
+          [0, 3, 1, 1, 1, 1, 1, 3, 0], 
+          [0, 1, 3, 1, 1, 1, 3, 1, 0], 
+          [0, 1, 1, 3, 3, 3, 1, 1, 0], 
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [-1, -1, -1, -1, -1, -1, -1, -1, -1]] # Fila extra para mostrar el texto
+
 
 def dibujar_mapa(mapa):
     
@@ -80,11 +90,12 @@ def dibujar_mapa(mapa):
                 huesos.draw()
                 
 def draw():
+  screen.fill("#2f3542") # (47, 53, 66)
   dibujar_mapa(mapa)
   personaje.draw()
 
-  screen.draw.text(("PS:" + str(personaje.salud)), midright=((WIDTH - 15), 14), color = 'white', fontsize = 16)
-  screen.draw.text(("ATK:" + str(personaje.ataque)), midright=((WIDTH - 15), 36), color = 'white', fontsize = 16)
+  screen.draw.text(("Salud: " + str(personaje.salud)), midleft=(30, (HEIGHT - int(celda.height/2))), color = 'white', fontsize = 24)
+  screen.draw.text(("Ataque: " + str(personaje.ataque)), midright=((WIDTH - 30), (HEIGHT - int(celda.height/2))), color = 'white', fontsize = 24)
 
 def on_key_down(key):
   
@@ -97,7 +108,7 @@ def on_key_down(key):
     personaje.x -= celda.width
     personaje.image = "left"
         
-  elif ((keyboard.down or keyboard.s) and (personaje.y < HEIGHT - celda.height * 2)):
+  elif ((keyboard.down or keyboard.s) and (personaje.y < HEIGHT - celda.height * 3)): # ¿xq 3?: porque le agrego OTRA fila (en la que mostramos el texto)
     personaje.y += celda.height
     
   elif ((keyboard.up or keyboard.w) and (personaje.y > celda.height * 2)):
